@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRUD_UserData.Data;
 using CRUD_UserData.Models;
@@ -21,7 +20,7 @@ namespace CRUD_UserData.Controllers
         {
             _context = context;
         }
-        [Authorize]
+/*        [Authorize]*/
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
@@ -71,8 +70,6 @@ namespace CRUD_UserData.Controllers
                 var userData = new UserData {Name = repo.Name };
                 _context.Add<UserData>(userData);
                 _context.SaveChanges();
-
-
             }
 
 
@@ -177,7 +174,7 @@ namespace CRUD_UserData.Controllers
                 return NotFound();
             }
 
-            return View();
+            return View(userData);
         }
 
         // POST: UserDatas/Delete/5
@@ -188,7 +185,7 @@ namespace CRUD_UserData.Controllers
             var userData = await _context.UserData.FindAsync(id);
             _context.UserData.Remove(userData);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserFromAPI));
         }
 
         private bool UserDataExists(int id)
